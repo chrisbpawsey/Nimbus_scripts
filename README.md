@@ -23,3 +23,82 @@ vagrant@vagrant:~$ openstack server list
 | 5bc25d83-aa27-4356-9445-6f41ec39147d | bio-synth | SHUTOFF | Public external=146.118.69.42  | Pawsey - Ubuntu 20.04 - 2021-02 | n3.2c8r   |
 +--------------------------------------+-----------+---------+--------------------------------+---------------------------------+-----------+
 '''
+
+# Creating Security groups and group rules
+
+'''
+vagrant@vagrant:~/rc_files$ openstack security group create --project "research-training"  burton2
++-----------------+------------------------------------------------------------------------------------------------------------------------------------+
+| Field           | Value |
++-----------------+------------------------------------------------------------------------------------------------------------------------------------+
+| created_at      | 2022-11-25T07:43:40Z                 |
+| description     | research-training-example            |
+| id              | fc3c4e1b-8263-4589-8b4d-c0ce5050b13e |
+| name            | burton2                              |
+| project_id      | 8752cfdee44a4b9fa7a356ebb6330584     |
+| revision_number | 1                                                                                               |
+| rules           | created_at='2022-11-25T07:43:40Z', direction='egress', ethertype='IPv4', id='1ac9f84c-3879-4d35-8f63-afd2e287b1fc', updated_at='2022-11-25T07:43:40Z' |
+|                 | created_at='2022-11-25T07:43:40Z', direction='egress', ethertype='IPv6', id='3ebe7945-62ad-4ba0-bf2a-0373102ed762', updated_at='2022-11-25T07:43:40Z' |
+| stateful        | None                                                                                                                |
+| tags            | []                                                                                                                                                    |
+| updated_at      | 2022-11-25T07:43:40Z                                                                                                                                  |
++-----------------+-------------------------------------------------------------------------------------------------------------------------------------------------------+
+'''
+create group rule 
+'''
+
+vagrant@vagrant:~/rc_files$ openstack security group rule create --description JNR_TEST --ingress --protocol tcp --dst-port 8787 fc3c4e1b-8263-4589-8b4d-c0ce5050b13e
++-------------------+--------------------------------------+
+| Field             | Value                                |
++-------------------+--------------------------------------+
+| created_at        | 2022-11-25T07:45:17Z                 |
+| description       | JNR_TEST                             |
+| direction         | ingress                              |
+| ether_type        | IPv4                                 |
+| id                | 29010afd-47bb-4acc-b469-d23cd377fd01 |
+| name              | None                                 |
+| port_range_max    | 8787                                 |
+| port_range_min    | 8787                                 |
+| project_id        | 8752cfdee44a4b9fa7a356ebb6330584     |
+| protocol          | tcp                                  |
+| remote_group_id   | None                                 |
+| remote_ip_prefix  | 0.0.0.0/0                            |
+| revision_number   | 0                                    |
+| security_group_id | fc3c4e1b-8263-4589-8b4d-c0ce5050b13e |
+| tags              | []                                   |
+| updated_at        | 2022-11-25T07:45:17Z                 |
++-------------------+--------------------------------------+
+'''
+verify 
+
+'''
+vagrant@vagrant:~/rc_files$ openstack security group show burton2
++-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Field           | Value
+                                                                                           |
++-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| created_at      | 2022-11-25T07:43:40Z
+                                                                                           |
+| description     | research-training-example
+                                                                                           |
+| id              | fc3c4e1b-8263-4589-8b4d-c0ce5050b13e
+                                                                                           |
+| name            | burton2
+                                                                                           |
+| project_id      | 8752cfdee44a4b9fa7a356ebb6330584
+                                                                                           |
+| revision_number | 2
+                                                                                           |
+| rules           | created_at='2022-11-25T07:43:40Z', direction='egress', ethertype='IPv4', id='1ac9f84c-3879-4d35-8f63-afd2e287b1fc', updated_at='2022-11-25T07:43:40Z'
+                                                                                           |
+|                 | created_at='2022-11-25T07:45:17Z', description='JNR_TEST', direction='ingress', ethertype='IPv4', id='29010afd-47bb-4acc-b469-d23cd377fd01', port_range_max='8787', port_range_min='8787', protocol='tcp', remote_ip_prefix='0.0.0.0/0', updated_at='2022-11-25T07:45:17Z' |
+|                 | created_at='2022-11-25T07:43:40Z', direction='egress', ethertype='IPv6', id='3ebe7945-62ad-4ba0-bf2a-0373102ed762', updated_at='2022-11-25T07:43:40Z'
+                                                                                           |
+| stateful        | None
+                                                                                           |
+| tags            | []
+                                                                                           |
+| updated_at      | 2022-11-25T07:45:17Z
+                                                                                           |
++-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+'''
